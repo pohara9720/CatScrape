@@ -1,0 +1,36 @@
+{
+  "name": "catscrape",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pohara9720/CatScrape.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pohara9720/CatScrape/issues"
+  },
+  "homepage": "https://github.com/pohara9720/CatScrape#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "ramda": "^0.26.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "eslint": "^6.4.0",
+    "eslint-config-node": "^4.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.2"
+  }
+}
