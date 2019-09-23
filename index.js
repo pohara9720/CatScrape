@@ -2,8 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import request from 'request';
 import cheerio from 'cheerio';
-// import fs from 'fs'
-
+import fs from 'fs' //eslint-disable-line
 
 const app = express();
 
@@ -25,68 +24,49 @@ app.use((req, res, next) => {
     next();
 });
 
-const giphyUrl = "https://giphy.com/search/funny-cats"
-// const imgurUrl = "https://imgur.com/search?q=funny%20cats"
+const searches = ['funny+cats', 'cute+cats', 'angry-cats', 'cats']
+
+
+const imgurUrl = "https://imgur.com/search/score?q="
 
 const PORT = process.env.PORT || 4000;
 
 /////////////////////////////////////////////////////////////////////LOADING SERVER/////////////////////////////////////////////////////////////////////
 
 
-// const format = (link) => `https:${link}`
+const format = (link) => `https:${link}`
 
-// const write = (data) => fs.writeFile('data.js', data, (err) => err || console.log('saved'));
+const write = (data) =>
+    fs.writeFile('./data.txt', JSON.stringify(data), (err) => err || console.log('saved'))
 
 
-// const scrapeImgur = () => {
 
-//     request(`${imgurUrl}`, (error, response, html) => {
-//         if (error) {
-//             throw new Error('Issues fetching data')
-//         }
+const scrapeImgur = () => searches.map(search => request(`${imgurUrl}${search}`, (error, response, html) => {
+    if (error) {
+        throw new Error('Issues fetching data')
+    }
 
-//         const $ = cheerio.load(html);
-//         const links = []
+    const $ = cheerio.load(html);
+    const links = []
 
-//         $('div .post').each((i, elem) => {
-//             const url = $(elem).find('img').attr('src')
-//             links[i] = format(url)
-//         })
+    $('div .post').each((i, elem) => {
+        const url = $(elem).find('img').attr('src')
+        links[i] = format(url)
+    })
 
-//         return links
-//     });
-// }
+    console.log(links.length);
+    write(links)
+}))
 
-// const scrapeGiphy = () => {
-//     request(`${giphyUrl}`, (error, response, html) => {
-//         if (error) {
-//             throw new Error('Issues fetching data')
-//         }
 
-//         const $ = cheerio.load(html);
-//         const links = []
 
-//         $('#content').find('div > img').each((index, element) => {
-//             links.push($(element).attr('src'));
-//         });
 
-//         console.log(links);
-//     });
-// }
+
 
 // Load Server
 app.get("/", (req, res) => {
     res.send("Cat Scraper");
-
-    // const data = []
-    // const imgur = scrapeImgur()
-    // const giphy = scrapeGiphy()
-
-    // data.push(imgur)
-    // data.push(giphy)
-
-    // write(data)
-
+    scrapeImgur()
 });
 
 
